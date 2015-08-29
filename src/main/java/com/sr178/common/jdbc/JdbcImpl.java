@@ -253,6 +253,6 @@ public class JdbcImpl implements Jdbc {
 			cntField = str[1];
 		}
 
-		return " select count(" + cntField + ") " + where;
+		return " select count(*) " + where;
 	}
 }
