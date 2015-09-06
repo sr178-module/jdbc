@@ -206,6 +206,7 @@ public class JdbcImpl implements Jdbc {
 	@Override
 	public <T> Page<T> getListPage(String sql, Class<T> cls, SqlParameter parameter,final int pageSize, final int pageIndex) {
 		int startNum = pageIndex*pageSize;
+		startNum = startNum<0?0:startNum;
 		int endNum = pageSize;
 		String resultSql = sql+" limit "+startNum+","+endNum;
  
