@@ -64,11 +64,24 @@ public abstract class BaseDao<T> {
     	String sql = "select * from "+table;
     	return getJdbc().getList(sql, cls, null);
     }
+    
+    public List<T> getAllOrder(String orderStr){
+    	String sql = "select * from "+table+ ""+orderStr;
+    	return getJdbc().getList(sql, cls, null);
+    }
 	
     public List<T> getList(SqlParamBean... beans){
     	SqlParameter parameter = SqlParameter.Instance();
     	String sql = "select * from "+table;
     	sql = sql + generatorWhere(parameter, beans);
+    	return getJdbc().getList(sql, cls, parameter);
+    }
+    
+    public List<T> getList(String orderBy,SqlParamBean... beans){
+    	SqlParameter parameter = SqlParameter.Instance();
+    	String sql = "select * from "+table;
+    	sql = sql + generatorWhere(parameter, beans);
+    	sql = sql +" "+orderBy;
     	return getJdbc().getList(sql, cls, parameter);
     }
     
@@ -80,10 +93,31 @@ public abstract class BaseDao<T> {
     	return getJdbc().get(sql, cls, parameter);
     }
     
+    public T getFirstOne(String orderBy){
+    	String sql = "select * from "+table+" "+orderBy;
+    	sql = sql + " limit 1";
+    	return getJdbc().get(sql, cls, null);
+    }
+    
     public IPage<T> getPageList(int pageIndex,int pageSize,SqlParamBean... beans){
     	SqlParameter parameter = SqlParameter.Instance();
     	String sql = "select * from "+table;
     	sql = sql + generatorWhere(parameter, beans);
+    	return getJdbc().getListPage(sql, cls, parameter, pageSize, pageIndex);
+    }
+    
+    public IPage<T> getPageList(int pageIndex,int pageSize,String orderBy){
+    	SqlParameter parameter = SqlParameter.Instance();
+    	String sql = "select * from "+table;
+    	sql = sql +" "+orderBy;
+    	return getJdbc().getListPage(sql, cls, parameter, pageSize, pageIndex);
+    }
+    
+    public IPage<T> getPageList(int pageIndex,int pageSize,String orderBy,SqlParamBean... beans){
+    	SqlParameter parameter = SqlParameter.Instance();
+    	String sql = "select * from "+table;
+    	sql = sql + generatorWhere(parameter, beans);
+    	sql = sql +" "+orderBy;
     	return getJdbc().getListPage(sql, cls, parameter, pageSize, pageIndex);
     }
     
