@@ -113,6 +113,13 @@ public abstract class BaseDao<T> {
     	return getJdbc().getListPage(sql, cls, parameter, pageSize, pageIndex);
     }
     
+    public IPage<T> getPageList(String backField,int pageIndex,int pageSize,String orderBy){
+    	SqlParameter parameter = SqlParameter.Instance();
+    	String sql = "select "+backField+" from "+table;
+    	sql = sql +" "+orderBy;
+    	return getJdbc().getListPage(sql, cls, parameter, pageSize, pageIndex);
+    }
+    
     public IPage<T> getPageList(int pageIndex,int pageSize,String orderBy,SqlParamBean... beans){
     	SqlParameter parameter = SqlParameter.Instance();
     	String sql = "select * from "+table;
