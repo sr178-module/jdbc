@@ -60,6 +60,8 @@ public abstract class BaseDao<T> {
 	}
     
 	
+	
+	
     public List<T> getAll(){
     	String sql = "select * from "+table;
     	return getJdbc().getList(sql, cls, null);
