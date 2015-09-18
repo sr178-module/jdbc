@@ -135,7 +135,7 @@ public abstract class BaseDao<T> {
     }
     
     public boolean delete(SqlParamBean... beans){
-    	SqlParameter parameter = null;
+    	SqlParameter parameter =SqlParameter.Instance();
     	String sql = "delete from "+table;
     	sql = sql + generatorWhere(parameter, beans);
     	return getJdbc().update(sql,parameter)>0;
