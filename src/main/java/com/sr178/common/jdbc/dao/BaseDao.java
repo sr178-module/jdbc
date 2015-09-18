@@ -68,7 +68,7 @@ public abstract class BaseDao<T> {
     }
     
     public List<T> getAllOrder(String orderStr){
-    	String sql = "select * from "+table+ ""+orderStr;
+    	String sql = "select * from "+table+ " "+orderStr;
     	return getJdbc().getList(sql, cls, null);
     }
 	
