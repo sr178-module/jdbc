@@ -234,13 +234,13 @@ public class JdbcImpl implements Jdbc {
 	 */
 	private String getCountString(final String queryString) {
 		String tmp = queryString.trim();
-		if (tmp.toLowerCase().startsWith("from ")) {
+		if (tmp.startsWith("from ")) {
 			return " select count(*) " + queryString;
 		}
 		if (!tmp.toLowerCase().startsWith("select"))
 			throw new RuntimeException(" the query not valid [" + queryString
 					+ "]");
-		int pos = queryString.toLowerCase().indexOf(" from ");
+		int pos = queryString.indexOf(" from ");
 		if (pos == -1)
 			throw new RuntimeException("the query not valid [" + queryString
 					+ "]");
