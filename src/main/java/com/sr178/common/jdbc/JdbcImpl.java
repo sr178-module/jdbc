@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import com.mysql.jdbc.Statement;
 import com.sr178.common.jdbc.bean.Page;
 import com.sr178.common.jdbc.util.SqlUtil;
 
@@ -160,7 +161,7 @@ public class JdbcImpl implements Jdbc {
 		this.jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(java.sql.Connection conn) throws SQLException {
-				PreparedStatement ps = conn.prepareStatement(beanSql.getSql());
+				PreparedStatement ps = conn.prepareStatement(beanSql.getSql(),Statement.RETURN_GENERATED_KEYS);
 				for (Entry<Integer, Object> entry : parameter.getParams().entrySet()) {
 					ps.setObject(entry.getKey(), entry.getValue());
 				} 
