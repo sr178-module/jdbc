@@ -144,9 +144,5 @@ public abstract class BaseDao<T> {
 		return table;
 	}
 	
-	public int getLastInsertId(){
-		String sql = "SELECT LAST_INSERT_ID()";
-		return getJdbc().getInt(sql, null);
-	}
 	public abstract Jdbc getJdbc();
 }

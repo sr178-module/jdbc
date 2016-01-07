@@ -1,5 +1,6 @@
 package com.sr178.common.jdbc;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +9,11 @@ import java.util.Map.Entry;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import com.sr178.common.jdbc.bean.Page;
 import com.sr178.common.jdbc.util.SqlUtil;
@@ -149,7 +153,22 @@ public class JdbcImpl implements Jdbc {
 			}
 		});
 	}
-	
+	public <T> int insertBackKeys(T t) {
+		final BeanToSQL beanSql = SqlUtil.createBeanSql(t);
+		final SqlParameter parameter = beanSql.getParams();
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		this.jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(java.sql.Connection conn) throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(beanSql.getSql());
+				for (Entry<Integer, Object> entry : parameter.getParams().entrySet()) {
+					ps.setObject(entry.getKey(), entry.getValue());
+				} 
+				return ps;
+			}
+		}, keyHolder);
+		return keyHolder.getKey().intValue();
+	}	
 	public <T> int[] batchSql(String[] sqls) {
 		return jdbcTemplate.batchUpdate(sqls);
 	}

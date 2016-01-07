@@ -72,6 +72,14 @@ public interface Jdbc {
 	 */
 	public <T> int[] insert(List<T> list);
 	
+	
+	/**
+	 * 插入对象后返回自增主键值
+	 * @param t
+	 * @return
+	 */
+	public <T> int insertBackKeys(T t);
+	
 	/**
 	 * 插入单个对象 指定表名的
 	 * 
