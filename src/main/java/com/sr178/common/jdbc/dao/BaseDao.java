@@ -129,9 +129,11 @@ public abstract class BaseDao<T> {
     	sql = sql +" "+orderBy;
     	return getJdbc().getListPage(sql, cls, parameter, pageSize, pageIndex);
     }
-    
     public boolean add(T t){
     	return getJdbc().insert(t)>0;
+    }
+    public int addBackKey(T t){
+    	return getJdbc().insertBackKeys(t);
     }
     
     public boolean delete(SqlParamBean... beans){
