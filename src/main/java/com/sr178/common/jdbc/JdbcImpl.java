@@ -57,6 +57,28 @@ public class JdbcImpl implements Jdbc {
 
 		return list;
 	}
+	
+	public <T> List<T> queryForList(String sql, final Class<T> cls, final SqlParameter parameter){
+		
+		return this.jdbcTemplate.queryForList(sql, parameterToObjectArray(parameter), cls);
+	}
+	
+	public <T> T queryForObject(String sql, final Class<T> cls, final SqlParameter parameter){
+		return this.jdbcTemplate.queryForObject(sql, parameterToObjectArray(parameter), cls);
+	}
+	
+	private Object[] parameterToObjectArray(SqlParameter parameter){
+		Object[] paramObject = null;
+		if(parameter!=null){
+			paramObject = new Object[parameter.parameterInd-1];
+			for(int i=1;i<parameter.parameterInd;i++){
+				paramObject[i-1] = parameter.getParams().get(i);
+			}
+		}else{
+			paramObject =  new Object[0];
+		}
+		return paramObject;
+	}
 
 	public int getInt(String sql, final SqlParameter parameter) {
 

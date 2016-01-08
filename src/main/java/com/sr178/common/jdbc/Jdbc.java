@@ -130,4 +130,20 @@ public interface Jdbc {
 	 */
 	public <T> Page<T> getListPage(String sql, Class<T> cls, SqlParameter parameter,final int pageSize, final int pageIndex);
 
+	/**
+	 * 可查询基本数据类型
+	 * @param sql
+	 * @param cls
+	 * @param parameter
+	 * @return
+	 */
+    public <T> List<T> queryForList(String sql, final Class<T> cls, final SqlParameter parameter);
+	/**
+	 * 可查询基本数据类型
+	 * @param sql
+	 * @param cls
+	 * @param parameter
+	 * @return
+	 */
+	public <T> T queryForObject(String sql, final Class<T> cls, final SqlParameter parameter);
 }
