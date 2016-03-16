@@ -128,6 +128,15 @@ public interface Jdbc {
 	 * @param parameter
 	 * @return
 	 */
+	public <T> Page<T> getListPage(String sql, Class<T> cls, SqlParameter parameter,final int pageSize, final int pageIndex,final String countSql,SqlParameter countParameter);
+	
+	/**
+	 * 分页查询 
+	 * @param sql
+	 * @param cls
+	 * @param parameter
+	 * @return
+	 */
 	public <T> Page<T> getListPage(String sql, Class<T> cls, SqlParameter parameter,final int pageSize, final int pageIndex);
 
 	/**

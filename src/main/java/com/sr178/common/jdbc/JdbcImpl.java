@@ -297,4 +297,18 @@ public class JdbcImpl implements Jdbc {
 
 		return " select count(*) " + where;
 	}
+
+	@Override
+	public <T> Page<T> getListPage(String sql, Class<T> cls, SqlParameter parameter, int pageSize, int pageIndex,
+			String countSql, SqlParameter countParameter) {
+		int startNum = pageIndex*pageSize;
+		startNum = startNum<0?0:startNum;
+		int endNum = pageSize;
+		String resultSql = sql+" limit "+startNum+","+endNum;
+ 
+		List<T> result = this.getList(resultSql, cls, parameter);
+
+		return new Page<T>(result, this.getLong(countSql, countParameter), pageSize, 
+				pageIndex);
+	}
 }
