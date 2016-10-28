@@ -135,7 +135,9 @@ public abstract class BaseDao<T> {
     public int addBackKey(T t){
     	return getJdbc().insertBackKeys(t);
     }
-    
+    public long addBackKeyLong(T t){
+    	return getJdbc().insertBackKeysLong(t);
+    }
     public boolean delete(SqlParamBean... beans){
     	SqlParameter parameter =SqlParameter.Instance();
     	String sql = "delete from "+table;
