@@ -191,6 +191,23 @@ public class JdbcImpl implements Jdbc {
 		}, keyHolder);
 		return keyHolder.getKey().intValue();
 	}	
+	
+	public <T> long insertBackKeysLong(T t) {
+		final BeanToSQL beanSql = SqlUtil.createBeanSql(t);
+		final SqlParameter parameter = beanSql.getParams();
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		this.jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(java.sql.Connection conn) throws SQLException {
+				PreparedStatement ps = conn.prepareStatement(beanSql.getSql(),Statement.RETURN_GENERATED_KEYS);
+				for (Entry<Integer, Object> entry : parameter.getParams().entrySet()) {
+					ps.setObject(entry.getKey(), entry.getValue());
+				} 
+				return ps;
+			}
+		}, keyHolder);
+		return keyHolder.getKey().longValue();
+	}	
 	public <T> int[] batchSql(String[] sqls) {
 		return jdbcTemplate.batchUpdate(sqls);
 	}
